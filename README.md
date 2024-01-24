@@ -1,4 +1,4 @@
-# Project Name
+# DB Capstone Project
 
 Description of what the project does.
 
