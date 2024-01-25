@@ -1,6 +1,6 @@
-###🍋Little Lemon - DB Capstone Project 
+# 🍋Little Lemon
 
-Description of what the project does.
+DB Capstone Project.
 
 ## Installation
 
