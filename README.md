@@ -6,9 +6,17 @@ This repository holds the completed capstone project for the "Meta Database Engi
 
 ## 🌟 Project Highlights
 
-- **Project Overview:** This project aims to help Little Lemon's customers reserve tables, place orders from the menu facilitated by staff, and verify the delivery status.
-- **Database Design:** A well-structured database schema catering to restaurant operations, including tables for customer, bookings, orders, menu, staff, delivery_status.
-- **Sales Reports:** Generate comprehensive reports on sales performance, popular menu items, and customer trends.
+- **Project Overview:**
+  - This project aims to help Little Lemon's customers reserve tables, place orders from the menu facilitated by staff, and verify the delivery status.
+  - Generate Little Lemon Day-to-Day Operations Reports.
+- **Database Design:**
+  - Designed database schema covering customers, bookings, orders, menu, staff, and delivery status.
+  - Followed the Entity Relationship Model with conceptual, logical, and physical data modeling stages.
+  - Ensured data integrity through normalization (1NF, 2NF, 3NF) to eliminate redundancy and dependency issues.
+- **Sales Reports:**
+  - Generate comprehensive reports on sales performance, popular menu items, and customer trends.
+  - Implemented virtual tables, JOIN statements, and subqueries for efficient data retrieval.
+  - Optimized queries using stored procedures and utilized prepared statements for SQL injection prevention. 
 - **Table Booking System:** Seamless reservation management with features to book, modify, and cancel tables effectively.
 - **Data Analytics and Visualization:** Utilize Google looker studio and Tableau to create insightful dashboards and analyze restaurant data for informed decision-making.
 - **Database Client:** A functional client application built with Python to interact with the database, perform CRUD operations, and generate reports.
