@@ -49,3 +49,5 @@ Contributions are welcome! If you have any suggestions, improvements, or bug fix
 We hope this README file provides a clear overview of the Little Lemon Restaurant Database Capstone Project. 
 
 Happy coding! 🫰
+
+More about me: https://github.com/deepaksahoodeveloper
