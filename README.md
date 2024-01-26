@@ -1,6 +1,6 @@
 # 🍋 Little Lemon
 
-DB Capstone Project.
+My DB Capstone Project.
 
 This repository holds the completed capstone project for the "Meta Database Engineer Professional Certificate" course, focusing on designing and building a database solution for Little Lemon Restaurant. The project encompasses all the skills and technologies learned throughout the program to address real-world restaurant management challenges.
 
