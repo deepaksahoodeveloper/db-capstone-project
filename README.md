@@ -17,7 +17,9 @@ This repository holds the completed capstone project for the "Meta Database Engi
   - Generate comprehensive reports on sales performance, popular menu items, and customer trends.
   - Implemented virtual tables, JOIN statements, and subqueries for efficient data retrieval.
   - Optimized queries using stored procedures and utilized prepared statements for SQL injection prevention. 
-- **Table Booking System:** Seamless reservation management with features to book, modify, and cancel tables effectively.
+- **Table Booking System:** 
+  - Seamless reservation management with features to book, modify, and cancel tables effectively.
+  - Used stored procedures, Trigger and Transaction to check and validate before making CURD operations.
 - **Data Analytics and Visualization:** Utilize Google looker studio and Tableau to create insightful dashboards and analyze restaurant data for informed decision-making.
 - **Database Client:** A functional client application built with Python to interact with the database, perform CRUD operations, and generate reports.
 
