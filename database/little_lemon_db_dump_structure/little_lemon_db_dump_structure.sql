@@ -33,8 +33,17 @@ CREATE TABLE `bookings` (
   UNIQUE KEY `booking_id_UNIQUE` (`booking_id`),
   KEY `customer_id_fk_idx` (`customer_id`),
   CONSTRAINT `customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bookings`
+--
+
+LOCK TABLES `bookings` WRITE;
+/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary view structure for view `bookings_view`
@@ -69,6 +78,15 @@ CREATE TABLE `customer` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Temporary view structure for view `customer_view`
 --
 
@@ -97,6 +115,15 @@ CREATE TABLE `delivery_status` (
   UNIQUE KEY `delivery_id_UNIQUE` (`delivery_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery_status`
+--
+
+LOCK TABLES `delivery_status` WRITE;
+/*!40000 ALTER TABLE `delivery_status` DISABLE KEYS */;
+/*!40000 ALTER TABLE `delivery_status` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Temporary view structure for view `delivery_status_view`
@@ -233,6 +260,15 @@ CREATE TABLE `menu` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `menu`
+--
+
+LOCK TABLES `menu` WRITE;
+/*!40000 ALTER TABLE `menu` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menu` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Temporary view structure for view `menu_view`
 --
 
@@ -277,6 +313,15 @@ CREATE TABLE `orders` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `orders`
+--
+
+LOCK TABLES `orders` WRITE;
+/*!40000 ALTER TABLE `orders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `orders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Temporary view structure for view `orders_view`
 --
 
@@ -312,6 +357,15 @@ CREATE TABLE `staff` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `staff`
+--
+
+LOCK TABLES `staff` WRITE;
+/*!40000 ALTER TABLE `staff` DISABLE KEYS */;
+/*!40000 ALTER TABLE `staff` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Temporary view structure for view `staff_view`
 --
 
@@ -332,6 +386,50 @@ SET character_set_client = @saved_cs_client;
 --
 -- Dumping routines for database 'little_lemon_dm'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `AddValidBooking` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`capstone_user`@`%` PROCEDURE `AddValidBooking`(
+    IN p_booking_date DATE, 
+    IN p_table_number INT,
+    IN p_customer_id INT,
+    OUT p_status_message VARCHAR(255)
+)
+BEGIN
+	DECLARE isTableAvailable INT;
+	START TRANSACTION;
+    
+    -- INSERT bookings details, Change not yet made
+    INSERT INTO bookings (date, table_number, customer_id)
+	VALUES (p_booking_date, p_table_number, p_customer_id);
+    
+    -- Check if the table is available on the given date
+    SELECT COUNT(*) INTO isTableAvailable
+    FROM bookings
+    WHERE table_number = p_table_number
+          AND date = p_booking_date;
+
+    -- If the table is available, insert the new booking; otherwise, set the status message
+    IF isTableAvailable = 0 THEN
+        SET p_status_message = CONCAT('Table ', p_table_number, ' is available on ', p_booking_date);
+        COMMIT;
+    ELSE
+        SET p_status_message = CONCAT('Table ', p_table_number, ' is already booked on ', p_booking_date);
+        ROLLBACK;
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `CancelOrder` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -350,6 +448,42 @@ BEGIN
     WHERE o.order_id = order_id;
     
     SET confirmation_message = CONCAT('Your order id ', order_id, ' is Canceled');
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `CheckBooking` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`capstone_user`@`%` PROCEDURE `CheckBooking`(
+    IN p_booking_date DATE, 
+    IN p_table_number INT, 
+    OUT p_status_message VARCHAR(255)
+)
+BEGIN
+    DECLARE isTableAvailable INT;
+
+    -- Check if the table is available on the given date
+    SELECT COUNT(*) INTO isTableAvailable
+    FROM bookings
+    WHERE table_number = p_table_number
+          AND date = p_booking_date;
+
+    -- If the table is available, insert the new booking; otherwise, set the status message
+    IF isTableAvailable = 0 THEN
+        SET p_status_message = CONCAT('Table ', p_table_number, ' is available on ', p_booking_date);
+    ELSE
+        SET p_status_message = CONCAT('Table ', p_table_number, ' is already booked on ', p_booking_date);
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -584,4 +718,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-27  0:04:59
+-- Dump completed on 2024-01-27 12:12:28
