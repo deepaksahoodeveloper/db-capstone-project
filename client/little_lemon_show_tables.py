@@ -6,10 +6,10 @@ show_tables_query = dbq.show_tables_query
 
 # Replace the placeholder values with your actual database information
 db_config = {
-    "host": "127.0.0.1",
-    "user": "capstone_user",
-    "password": "Deepak@0307",
-    "database": "little_lemon_dm",
+    "host": "Your_host",
+    "user": "your_user",
+    "password": "Your_password",
+    "database": "your_db",
 }
 
 # Establish a connection to the MySQL server
